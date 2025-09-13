@@ -1,7 +1,3 @@
-// Package gym provides the core API for Environment, Wrapper, ActionWrapper, RewardWrapper and ObservationWrapper.
-//
-// This package implements the main Gymnasium-style interface for reinforcement learning environments in Go,
-// providing a type-safe and idiomatic Go implementation of the standard RL environment interface.
 package gym
 
 import (
