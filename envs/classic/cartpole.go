@@ -1,7 +1,3 @@
-// Package classic provides classic control environments for reinforcement learning.
-//
-// This package implements well-known control problems like CartPole, MountainCar, etc.
-// that are commonly used for testing and benchmarking reinforcement learning algorithms.
 package classic
 
 import (
