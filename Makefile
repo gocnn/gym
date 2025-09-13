@@ -31,13 +31,6 @@ lint:
 test:
 	$(GO) test $(GOFLAGS) ./...
 
-# Generate documentation with godoc
-.PHONY: docs
-docs:
-	@echo "Starting godoc server at http://localhost:6060"
-	@echo "Visit http://localhost:6060/pkg/github.com/qntx/gym/ to view your package documentation"
-	godoc -http=:6060
-
 # Pre-commit: run all checks before commit
 .PHONY: pre-commit
 pre-commit: deps fmt lint test
@@ -52,6 +45,5 @@ help:
 	@echo "  make fmt      - Format Go code"
 	@echo "  make lint     - Run linter (requires golangci-lint)"
 	@echo "  make test     - Run all tests"
-	@echo "  make docs     - Start godoc server for documentation"
 	@echo "  make pre-commit - Run all pre-commit checks (deps, fmt, lint, test)"
 	@echo "  make help     - Show this help message"
