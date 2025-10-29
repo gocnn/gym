@@ -10,20 +10,21 @@ go get github.com/gocnn/gym
 
 ## Usage
 
-Run a `CartPole-v1` environment with minimal code.
+Run a `CartPole-v1` environment with minimal code. See the [full example](example/cartpole).
 
 ```go
-env, err := gym.Make[[]float64, int]("CartPole-v1", map[string]any{
-    "render_mode": "human",
-    "sutton_barto_reward": false,
+env, err := classic.NewCartPoleEnv(&classic.CartPoleConfig{
+    RenderMode: "human",
 })
 defer env.Close()
 
-obs, info, err := env.Reset(context.Background(), 0, nil)
+env.Reset(context.Background(), 0, nil)
+
 for step := 0; step < 500; step++ {
-    action, err := env.ActionSpace().Sample(nil, nil)
+    action, _ := env.ActionSpace().Sample(nil, nil)
     obs, reward, done, truncated, info, err := env.Step(context.Background(), action)
-    env.Render()
+    
+    env.Render()    
     if done || truncated {
         break
     }
