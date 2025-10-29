@@ -3,8 +3,7 @@ package gym
 import (
 	"context"
 
-	"github.com/qntx/gym/rand"
-	"github.com/qntx/gym/space"
+	"github.com/gocnn/gym/rand"
 )
 
 // Info represents auxiliary diagnostic information that is JSON-serializable.
@@ -50,7 +49,6 @@ type Metadata map[string]any
 //
 //   - ActionSpace - The Space object corresponding to valid actions, all valid actions should be contained within the space.
 //   - ObservationSpace - The Space object corresponding to valid observations, all valid observations should be contained within the space.
-//   - Spec - An environment spec that contains the information used to initialize the environment.
 //   - Metadata - The metadata of the environment, e.g. supported render modes and fps.
 //   - GetRNG - The random number generator for the environment for reproducible sampling.
 //
@@ -134,7 +132,7 @@ type Env[Obs any, Act any] interface {
 	//
 	// Returns:
 	//   - The action space for this environment
-	ActionSpace() space.Space[Act]
+	ActionSpace() Space[Act]
 
 	// ObservationSpace returns the Space object corresponding to valid observations.
 	//
@@ -142,7 +140,7 @@ type Env[Obs any, Act any] interface {
 	//
 	// Returns:
 	//   - The observation space for this environment
-	ObservationSpace() space.Space[Obs]
+	ObservationSpace() Space[Obs]
 
 	// Metadata returns the metadata of the environment.
 	//
@@ -151,12 +149,6 @@ type Env[Obs any, Act any] interface {
 	// Returns:
 	//   - A map containing environment metadata
 	Metadata() Metadata
-
-	// Spec returns the environment specification used for registration and identification.
-	//
-	// Returns:
-	//   - The environment spec, or nil if not registered
-	Spec() *EnvSpec[Obs, Act]
 
 	// Unwrapped returns the base non-wrapped environment.
 	//

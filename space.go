@@ -1,5 +1,4 @@
-// Package space provides the implementation of the Space interface for defining observation and action spaces.
-package space
+package gym
 
 // Space is a generic interface used to define observation and action spaces in reinforcement learning environments.
 //

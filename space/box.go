@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/qntx/gym/rand"
+	"github.com/gocnn/gym/rand"
 )
 
 // Box represents a (possibly unbounded) box in R^n.

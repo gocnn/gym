@@ -4,7 +4,7 @@ package space
 import (
 	"fmt"
 
-	"github.com/qntx/gym/rand"
+	"github.com/gocnn/gym/rand"
 )
 
 // Discrete represents a space consisting of finitely many elements.

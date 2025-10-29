@@ -5,7 +5,7 @@ A lightweight, pure Go implementation of `OpenAI's` Gym for reinforcement learni
 ## Install
 
 ```sh
-go get github.com/qntx/gym
+go get github.com/gocnn/gym
 ```
 
 ## Usage

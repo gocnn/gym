@@ -9,12 +9,12 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gocnn/gym"
+	"github.com/gocnn/gym/rand"
+	"github.com/gocnn/gym/space"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
-	"github.com/qntx/gym"
-	"github.com/qntx/gym/rand"
-	"github.com/qntx/gym/space"
 )
 
 // CartPoleEnv implements the classic cart-pole system described by Rich Sutton et al.
@@ -75,15 +75,14 @@ type CartPoleEnv struct {
 	renderMode        string
 
 	// Spaces
-	actionSpace      space.Space[int]
-	observationSpace space.Space[[]float64]
+	actionSpace      gym.Space[int]
+	observationSpace gym.Space[[]float64]
 
 	// Episode tracking
 	stepsBeyondTerminated *int
 
-	// Metadata and spec
+	// Metadata
 	metadata gym.Metadata
-	spec     *gym.EnvSpec[[]float64, int]
 
 	// Rendering
 	screen *ebiten.Image
@@ -130,43 +129,12 @@ func NewCartPoleEnv(config *CartPoleConfig) (*CartPoleEnv, error) {
 		suttonBartoReward: config.SuttonBartoReward,
 		renderMode:        config.RenderMode,
 
-		// Metadata and spec
+		// Metadata
 		metadata: gym.Metadata{
-			"render_modes": []string{"human", "rgb_array"},
-			"render_fps":   50,
-		},
-		spec: &gym.EnvSpec[[]float64, int]{
-			ID: "CartPole-v1",
-			EntryPoint: func(config interface{}) (gym.Env[[]float64, int], error) {
-				var cartPoleConfig *CartPoleConfig
-				if config != nil {
-					if configMap, ok := config.(map[string]interface{}); ok {
-						cartPoleConfig = &CartPoleConfig{}
-
-						// Parse render_mode
-						if renderMode, exists := configMap["render_mode"]; exists {
-							if rm, ok := renderMode.(string); ok {
-								cartPoleConfig.RenderMode = rm
-							}
-						}
-
-						// Parse sutton_barto_reward
-						if suttonBarto, exists := configMap["sutton_barto_reward"]; exists {
-							if sb, ok := suttonBarto.(bool); ok {
-								cartPoleConfig.SuttonBartoReward = sb
-							}
-						}
-					}
-				}
-
-				return NewCartPoleEnv(cartPoleConfig)
-			},
-			RewardThreshold:   &[]float64{475.0}[0],
-			MaxEpisodeSteps:   &[]int{500}[0],
-			Nondeterministic:  false,
-			OrderEnforce:      true,
-			DisableEnvChecker: false,
-			Kwargs:            make(map[string]interface{}),
+			"render_modes":      []string{"human", "rgb_array"},
+			"render_fps":        50,
+			"reward_threshold":  475.0,
+			"max_episode_steps": 500,
 		},
 	}
 
@@ -482,23 +450,18 @@ func (g *AutoRenderGame) Layout(outsideWidth, outsideHeight int) (screenWidth, s
 }
 
 // ActionSpace returns the Space object corresponding to valid actions.
-func (env *CartPoleEnv) ActionSpace() space.Space[int] {
+func (env *CartPoleEnv) ActionSpace() gym.Space[int] {
 	return env.actionSpace
 }
 
 // ObservationSpace returns the Space object corresponding to valid observations.
-func (env *CartPoleEnv) ObservationSpace() space.Space[[]float64] {
+func (env *CartPoleEnv) ObservationSpace() gym.Space[[]float64] {
 	return env.observationSpace
 }
 
 // Metadata returns the metadata of the environment.
 func (env *CartPoleEnv) Metadata() gym.Metadata {
 	return env.metadata
-}
-
-// Spec returns the environment specification used for registration and identification.
-func (env *CartPoleEnv) Spec() *gym.EnvSpec[[]float64, int] {
-	return env.spec
 }
 
 // Unwrapped returns the base non-wrapped environment.

@@ -6,13 +6,13 @@ import (
 	"log"
 	"time"
 
-	"github.com/qntx/gym"
-	_ "github.com/qntx/gym/envs/classic"
+	"github.com/gocnn/gym/envs/classic"
 )
 
 func main() {
-	env, err := gym.Make[[]float64, int]("CartPole-v1", map[string]any{
-		"render_mode": "human",
+	// Direct construction - type-safe and idiomatic Go
+	env, err := classic.NewCartPoleEnv(&classic.CartPoleConfig{
+		RenderMode: "human",
 	})
 	if err != nil {
 		log.Fatal(err)

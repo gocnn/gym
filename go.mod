@@ -1,4 +1,4 @@
-module github.com/qntx/gym
+module github.com/gocnn/gym
 
 go 1.25
 
