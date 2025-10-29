@@ -1,5 +1,10 @@
-name: Go
-on: workflow_call
+name: Go CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -10,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
-        with: 
+        with:
           go-version: "1.25"
       - name: Install deps
         if: runner.os == 'Linux'
